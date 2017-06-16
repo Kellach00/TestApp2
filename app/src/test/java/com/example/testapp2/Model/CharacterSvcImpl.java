@@ -3,10 +3,9 @@ package com.example.testapp2.Model;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.testapp2.CharactersList;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 /**
  * Created by smccullough on 6/15/2017.
@@ -15,12 +14,12 @@ import java.io.ObjectOutputStream;
 public class CharacterSvcImpl implements ISaveSVC {
 
     private final String filename = "CharactersList.sio";
-    private list<CharactersList> character;
+    private List<Character> Character;
     private Context appContext;
 
     public CharacterSvcImpl (Context context){
 
-        character = null;
+        Character = null;
 
         //Store context passed in, needed to open files
         appContext = context;
@@ -30,7 +29,7 @@ public class CharacterSvcImpl implements ISaveSVC {
     private void readfile(){
         try{
             ObjectInputStream ois = new ObjectInputStream(appContext.openFileInput(filename)); //Using appContext to open files.
-            character = (list<CharactersList>) ois.readObject();
+            this.Character = (List<Character>) ois.readObject();
             ois.close();
         } catch(Exception e){
             String TAG = "CharacterSvcImpl";
@@ -41,7 +40,7 @@ public class CharacterSvcImpl implements ISaveSVC {
     private void writeFile(){
         try{
             ObjectOutputStream oos = new ObjectOutputStream(appContext.openFileOutput(filename, Context.MODE_PRIVATE));
-            oos.writeObject(character);
+            oos.writeObject(Character);
             oos.flush();
             oos.close();
         } catch (Exception e){
@@ -51,23 +50,25 @@ public class CharacterSvcImpl implements ISaveSVC {
     }
 
     @Override
-    public character create(character character) {
-        character.add(CharactersList);
+    public Character Create(Character character) {
+        Character.add(character);
         writeFile();
         return character;
     }
 
     @Override
-    public list<CharactersList> retrieveAllCharacters() {
-        return character;
+    public List<Character> retrieveallcontacts() {
+        return null;
     }
 
-    public Character update(Character character) {
-        return character;
+    @Override
+    public Character update() {
+        return null;
     }
 
-    public Character delete(Character character) {
-        return character;
+    @Override
+    public Character delete() {
+        return null;
     }
 
 }

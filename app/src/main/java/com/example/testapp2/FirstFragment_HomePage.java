@@ -1,7 +1,6 @@
 package com.example.testapp2;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -33,8 +32,6 @@ public class FirstFragment_HomePage extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
 
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.Characters_Array_List, CharactersList).commit();
     }
 
     @Override
