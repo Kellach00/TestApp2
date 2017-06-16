@@ -7,8 +7,8 @@ import java.util.List;
  */
 
 public interface ISaveSVC {
-    public Character Create(Character character);
-    public List<Character> retrieveallcontacts();
-    public Character update();
-    public Character delete();
+    Character Create(Character character);
+    List<Character> retrieveallcontacts();
+    Character update();
+    Character delete();
 }
