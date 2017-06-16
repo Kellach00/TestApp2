@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">TestApp2</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="app_bar_main_button">Create New Character</string>
+    <string name="activity_main_drawer_arrowmenu">Delete Character</string>
+    <string name="CharacterList_View">Tap to View Existing Characters</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
