@@ -13,4 +13,20 @@ public interface ICharacterSvc  {
     Character update();
     Character delete();
 
+    public class CharacterTable {
+        private int id;
+        private String characterName;
+        private int Str;
+        private int Dex;
+        private int Con;
+        private int Int;
+        private int Wis;
+        private int Cha;
+    }
+
+    public CharacterTable(){
+
+    }
+
+
 }

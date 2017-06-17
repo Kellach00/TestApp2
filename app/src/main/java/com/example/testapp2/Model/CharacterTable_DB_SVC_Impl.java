@@ -3,6 +3,7 @@ package com.example.testapp2.Model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -13,38 +14,44 @@ import java.util.List;
  * Created by smccullough on 6/17/2017.
  */
 
-public abstract class CharacterSvcSQLiteImpl extends SQLiteOpenHelper implements ICharacterSvc
-{
+public class CharacterTable_DB_SVC_Impl extends SQLiteOpenHelper {
 
-    private static final String DBNAME = "Characters.db";
-    private static final int DBVERSION = 1;
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "characterDB.db";
+    private static final String TABLE_CHARACTERS = "character";
 
-    private String createCharacterTable =
-            "create table" + character "(" + id + " integer primary key autoincrement, " + characterName + " varChar(30) not null," +
-                    + Str + " integer not null, " + Dex + " integer not null, " + Con + "integer not null, " + Int + "integer not null," +
-                    Wis " integer not null, " Cha + "integer not null" + ")";
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_CHARACTERNAME = "characterName";
+    public static final String COLUMN_STR = "STR";
+    public static final String COLUMN_DEX = "DEX";
+    public static final String COLUMN_CON = "CON";
+    public static final String COLUMN_INT = "INT";
+    public static final String COLUMN_WIS = "WIS";
+    public static final String COLUMN_CHA = "CHA";
 
+    public CharacterTable_DB_SVC_Impl(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
 
-
-    public CharacterSvcSQLiteImpl(Context context)
-    {
-        super(context, DBNAME, null, DBVERSION);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase)
-    {
-
-        sqLiteDatabase.execSQL(createCharacterTable);
+        super(context, DATABASE_NAME, factory, DATABASE_VERSION, errorHandler);
 
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1)
-    {
+    public void onCreate(SQLiteDatabase db) {
 
-        sqLiteDatabase.execSQL("DROP TABLE IF IT EXISTS character");
-        onCreate(sqLiteDatabase);
+        String Create_characterDB_Table = "CREATE TABLE" + Character_Table + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_CHARACTERNAME + " VARCHAR(20) NOT NULL," + COLUMN_STR + " INTEGER NOT NULL," + COLUMN_DEX + " INTEGER NOT NULL," +
+                COLUMN_CON + " INTEGER NOT NULL," + COLUMN_INT + " INTEGER NOT NULL," + COLUMN_WIS +
+                " INTEGER NOT NULL," + COLUMN_CHA + " INTEGER NOT NULL," + ")";
+
+        db.execSQL(Create_characterDB_Table);
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        db.execSQL("DROP TABLE IF EXISTS " + Character_Table);
+        onCreate(db);
 
     }
 
@@ -54,36 +61,37 @@ public abstract class CharacterSvcSQLiteImpl extends SQLiteOpenHelper implements
         //Get Database Object
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         //Create object to hold row values that go in table
-        ContentValues contentValues = ContentValues();
+        ContentValues values = new ContentValues();
         //Add values for row
-        contentValues.put("characterName", character.getName());
-        contentValues.put("Str", character.getNumericValue());
-        contentValues.put("Dex", character.getNumericValue());
-        contentValues.put("Con", character.getNumericValue());
-        contentValues.put("Int", character.getNumericValue());
-        contentValues.put("Wis", character.getNumericValue());
-        contentValues.put("Cha", character.getNumericValue());
+        values.put(COLUMN_CHARACTERNAME, character.getName());
+        values.put("Str", character.getNumericValue());
+        values.put("Dex", character.getNumericValue());
+        values.put("Con", character.getNumericValue());
+        values.put("Int", character.getNumericValue());
+        values.put("Wis", character.getNumericValue());
+        values.put("Cha", character.getNumericValue());
+
         //insert row into database. This returns the id of the new row
         //or -1 if the insert failed. It is a good idea to check the value
         //of the returned row id.
-        long rowIdOfInsertedRecord = sqLiteDatabase.insert("character", null, contentValues);
+        long rowIdOfInsertedRecord = sqLiteDatabase.insert("character", null, values);
 
         //Close database
         sqLiteDatabase.close();
 
         return character;
+
     }
 
     @Override
-    public List<Character> retrieveallcontacts()
-    {
+    public List<Character> retrieveallcontacts() {
 
         List<Character> characters = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query("character", //Table name
                 //Column      0    1    2    3    4    5   6   7
                 new String[] {"id", "characterName", "Str", "Dex", "Con", "Int", "Wis",
-                "Cha"}, null, null, null, null, null, null);
+                        "Cha"}, null, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
             Character character = getCharacter(cursor);
@@ -94,8 +102,10 @@ public abstract class CharacterSvcSQLiteImpl extends SQLiteOpenHelper implements
         cursor.close();
         return characters;
 
+
     }
 
+    @Override
     public Character update(Character character) {
 
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
@@ -118,13 +128,14 @@ public abstract class CharacterSvcSQLiteImpl extends SQLiteOpenHelper implements
             throw new SomeServiceException("Failed to update character");
         }
         return character;
+
     }
 
-    public void delete(int characterId) {
+    public void delete() {
 
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         int rowsDeleted = sqLiteDatabase.delete("character",
-                "id = ?", new String[] {String.valueOf(characterId)});
+                "id = ?", new String[] {String.valueOf(COLUMN_ID)});
         sqLiteDatabase.close();
 
         //Check the number of rows deleted
@@ -134,19 +145,4 @@ public abstract class CharacterSvcSQLiteImpl extends SQLiteOpenHelper implements
 
     }
 
-    private Character getCharacter(Cursor cursor){
-        Character character = new Character();
-        //On getInt and getString the number passed is the index of the column
-        //name used in the query... see the string array in retrieveallcontacts
-        character.setId(cursor.getInt(0));
-        character.setcharacterName(cursor.getString(1));
-        character.setStr(cursor.getInt(2));
-        character.setDex(cursor.getInt(3));
-        character.setCon(cursor.getInt(4));
-        character.setInt(cursor.getInt(5));
-        character.setWis(cursor.getInt(6));
-        character.setCha(cursor.getInt(7));
-
-        return character;
-    }
 }
