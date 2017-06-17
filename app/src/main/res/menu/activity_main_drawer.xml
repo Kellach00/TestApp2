@@ -6,15 +6,15 @@
         <item
             android:id="@+id/nav_first_layout"
             android:icon="@drawable/ic_menu_camera"
-            android:title="First Layout" />
+            android:title="Home" />
         <item
             android:id="@+id/nav_second_layout"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Second Layout" />
+            android:title="Character Sheet" />
         <item
             android:id="@+id/nav_third_layout"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Third Layout" />
+            android:title="Event Log" />
     </group>
 
     <item android:title="@string/activity_main_drawer_arrowmenu">//Needs to populate with a list of

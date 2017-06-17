@@ -1,6 +1,5 @@
-package com.example.testapp2;
+package com.example.testapp2.Controller;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -8,10 +7,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.example.testapp2.R;
+import com.example.testapp2.View.FirstFragment_HomePage;
+import com.example.testapp2.View.SecondFragment_CharSheet;
+import com.example.testapp2.View.ThirdFragment_EventLog;
 
 import static com.example.testapp2.R.id.button2;
 import static com.example.testapp2.R.id.nav_first_layout;
@@ -19,15 +22,13 @@ import static com.example.testapp2.R.id.nav_first_layout;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int CONTENT_VIEW_ID = 12345;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Calling homepage fragment as the default fragment for the activity_main layout
         android.app.FragmentTransaction defaultFrag = getFragmentManager().beginTransaction();
-        defaultFrag.replace(R.id.flContent, new com.example.testapp2.FirstFragment_HomePage());
+        defaultFrag.replace(R.id.flContent, new FirstFragment_HomePage());
         defaultFrag.commit();
 
         setContentView(R.layout.activity_main);
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_third_layout) {
             fragmentManager.beginTransaction()
                     .replace(R.id.flContent
-                            , new ThirdFragment())
+                            , new ThirdFragment_EventLog())
                     .commit();
         } else if (id == R.id.nav_share) {
 
@@ -110,7 +112,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    /** This Method handles the 'New Character' button click on the FirstFragment_HomePage */
+    /**
+     * This Method handles the 'New Character' button click on the FirstFragment_HomePage
+     */
     public void changeFragment(View view) {
         android.app.FragmentManager fragmentManager = getFragmentManager();
         int id = view.getId();
@@ -123,18 +127,5 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void messageFromParentFragment(Uri uri){
-        Log.i("TAG", "received communication from parent fragment");
-    }
-
-    public void messageFromChildFragment(Uri uri){
-        Log.i("TAG", "received communication from child fragment");
-    }
-
-    /**This method will handle the serialization of the SecondFragment_CharSheet
-    public void callSave(View view){
-        //Create an Intent to save
-        Intent saveChar = new Intent(this, Saving_Service.class);
-        startService(saveChar);
-    }*/
 }
+

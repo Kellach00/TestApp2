@@ -1,4 +1,4 @@
-package com.example.testapp2;
+package com.example.testapp2.View;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.testapp2.R;
+
 /**
  * Created by smccullough on 6/7/2017.
  */
 
-public class ThirdFragment extends Fragment {
+public class ThirdFragment_EventLog extends Fragment {
 
     View myView;
 
