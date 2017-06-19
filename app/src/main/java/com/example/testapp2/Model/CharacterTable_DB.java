@@ -4,6 +4,11 @@ package com.example.testapp2.Model;
  * Created by smccullough on 6/17/2017.
  */
 
+//This class contains my data model: my private data members for internal storage of my data columns
+//from database entries.
+
+//Also included are the methods to get and set the aforementioned values.
+
 public class CharacterTable_DB {
 
         private int id;
